@@ -1,3 +1,4 @@
 spotify_million_playlist_dataset/*
 model_embeddings/*
 model_stats/*
+experiments/*

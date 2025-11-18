@@ -204,23 +204,37 @@ largest_cc_lg = max(nx.connected_components(sub_G_lg.to_undirected()), key=len)
 sub_G_lg = nx.Graph(sub_G_lg.subgraph(largest_cc_lg))
 print('Large subgraph Num nodes:', sub_G_lg.number_of_nodes(),
       '. Num edges:', sub_G_lg.number_of_edges())
-# Make a smaller subgraph from the larger one
-# rand_nodes_sm = random.sample(list(sub_G_lg.nodes()), 400)
-# sub_G_sm = sub_G_lg.subgraph(rand_nodes_sm)
-# largest_cc_sm = max(nx.connected_components(sub_G_sm.to_undirected()), key=len)
-# sub_G_sm = nx.Graph(sub_G_sm.subgraph(largest_cc_sm))
-# print('Small subgraph Num nodes:', sub_G_sm.number_of_nodes(),
-#       '. Num edges:', sub_G_sm.number_of_edges())
-# Graph the large subgraph
 color_map = {"playlist": 0, "track": 1, "album": 2, "artist": 3}
-node_color = [color_map[attr["node_type"]] for (id, attr) in sub_G_lg.nodes(data=True)]
-plt.figure(figsize=(20,20))
-nx.draw(sub_G_lg,
-        cmap=plt.get_cmap('coolwarm'),
-        node_color=node_color,
-        node_size = 50,
-        width = 2,
-        edge_color=(0, 0, 0, 0.1))
+num_types = 4  # categories
 
-plt.savefig(f'actual_whole_hetero_graph.png')
+
+cmap_theme = "Set1"
+
+
+# Normalize node_color values to [0,1]
+node_color = [
+    color_map[attr["node_type"]] / (num_types - 1)
+    for (_, attr) in sub_G.nodes(data=True)
+]
+
+plt.figure(figsize=(10,10))
+nx.draw(
+    sub_G,
+    cmap=plt.get_cmap(cmap_theme),
+    node_color=node_color,
+    node_size=30,
+    width=2,
+    edge_color=(0,0,0,0.1)
+)
+
+from matplotlib.patches import Patch
+
+# Legend uses the same normalization
+legend_elements = [
+    Patch(facecolor=plt.get_cmap(cmap_theme)(color_map["playlist"] / (num_types - 1)),label="Playlist"),
+    Patch(facecolor=plt.get_cmap(cmap_theme)(color_map["track"] / (num_types - 1)),label="Track"),
+    Patch(facecolor=plt.get_cmap(cmap_theme)(color_map["album"] / (num_types - 1)),label="Album"),
+    Patch(facecolor=plt.get_cmap(cmap_theme)(color_map["artist"] / (num_types - 1)),label="Artist")]
+
+plt.legend(handles=legend_elements, loc="upper right")
 plt.show()

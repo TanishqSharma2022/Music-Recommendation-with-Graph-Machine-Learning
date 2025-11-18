@@ -1,0 +1,35 @@
+nohup: ignoring input
+Num nodes: 299372 . Num edges: 1001704
+HeteroData(
+  track={ num_nodes=171855 },
+  album={ num_nodes=81720 },
+  playlist={ num_nodes=10000 },
+  artist={ num_nodes=35797 },
+  (track, track_in_playlist, playlist)={ edge_index=[2, 329839] },
+  (track, track_in_album, album)={ edge_index=[2, 85611] },
+  (track, track_by_artist, artist)={ edge_index=[2, 87106] },
+  (album, track_in_album, track)={ edge_index=[2, 86244] },
+  (playlist, track_in_playlist, track)={ edge_index=[2, 328155] },
+  (artist, track_by_artist, track)={ edge_index=[2, 84749] }
+)
+Forward edge: ('playlist', 'track_in_playlist', 'track')
+Reverse edge: ('track', 'track_in_playlist', 'playlist')
+Train supervision edges: 262525
+Val supervision edges:   32815
+Test supervision edges:  32815
+Train MP edges (fwd):    262525
+Train MP edges (rev):    262525
+Val MP edges (fwd):      262525
+Val MP edges (rev):      262525
+Test MP edges (fwd):     295340
+Test MP edges (rev):     295340
+
+============================================================
+Starting training: HeteroGNN_RGCN_20251118_170013
+============================================================
+
+Epoch 1/20 [Train]:   0%|          | 0/513 [00:00<?, ?it/s]/home/DSE411/Documents/Tanishq/mlg-music-recommendation/trainer.py:297: FutureWarning: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+  scaler = amp.GradScaler()  # Initialize the gradient scaler for mixed precision
+/home/DSE411/Documents/Tanishq/mlg-music-recommendation/trainer.py:303: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with amp.autocast():  # Enable mixed precision
+Epoch 1/20 [Train]:   0%|          | 0/513 [00:12<?, ?it/s, loss=0.6929, avg_loss=0.6929]Epoch 1/20 [Train]:   0%|          | 1/513 [00:12<1:49:04, 12.78s/it, loss=0.6929, avg_loss=0.6929]Epoch 1/20 [Train]:   0%|          | 1/513 [00:24<1:49:04, 12.78s/it, loss=0.6920, avg_loss=0.6925]Epoch 1/20 [Train]:   0%|          | 2/513 [00:24<1:44:36, 12.28s/it, loss=0.6920, avg_loss=0.6925]Epoch 1/20 [Train]:   0%|          | 2/513 [00:36<1:44:36, 12.28s/it, loss=0.6929, avg_loss=0.6926]Epoch 1/20 [Train]:   1%|          | 3/513 [00:36<1:42:31, 12.06s/it, loss=0.6929, avg_loss=0.6926]Epoch 1/20 [Train]:   1%|          | 3/513 [00:48<1:42:31, 12.06s/it, loss=0.6932, avg_loss=0.6927]Epoch 1/20 [Train]:   1%|          | 4/513 [00:48<1:40:26, 11.84s/it, loss=0.6932, avg_loss=0.6927]Epoch 1/20 [Train]:   1%|          | 4/513 [01:01<1:40:26, 11.84s/it, loss=0.6932, avg_loss=0.6928]Epoch 1/20 [Train]:   1%|          | 5/513 [01:01<1:45:12, 12.43s/it, loss=0.6932, avg_loss=0.6928]Epoch 1/20 [Train]:   1%|          | 5/513 [01:13<1:45:12, 12.43s/it, loss=0.6931, avg_loss=0.6929]Epoch 1/20 [Train]:   1%|          | 6/513 [01:13<1:45:01, 12.43s/it, loss=0.6931, avg_loss=0.6929]Epoch 1/20 [Train]:   1%|          | 6/513 [01:27<1:45:01, 12.43s/it, loss=0.6931, avg_loss=0.6929]Epoch 1/20 [Train]:   1%|▏         | 7/513 [01:27<1:47:27, 12.74s/it, loss=0.6931, avg_loss=0.6929]Epoch 1/20 [Train]:   1%|▏         | 7/513 [01:39<1:47:27, 12.74s/it, loss=0.6931, avg_loss=0.6929]Epoch 1/20 [Train]:   2%|▏         | 8/513 [01:39<1:46:52, 12.70s/it, loss=0.6931, avg_loss=0.6929]
