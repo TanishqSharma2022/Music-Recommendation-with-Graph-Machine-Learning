@@ -43,15 +43,48 @@ from torch import Tensor
     
 #     return neg_edge_index, neg_edge_label
 
+# def sample_negatives(batch, device="cpu", neg_ratio=3):
+#     """Sample negative edges within batch node space."""
+#     edge_type = ('playlist', 'track_in_playlist', 'track')
+    
+#     # Get positive edges and their label info
+#     pos_edge_index = batch[edge_type].pos_edge_label_index
+#     pos_edge_label = batch[edge_type].pos_edge_label
+    
+#     # Get valid node ranges in THIS batch
+#     num_playlists = batch['playlist'].num_nodes
+#     num_tracks = batch['track'].num_nodes
+    
+#     # Create set of positive edges to avoid duplicates
+#     pos_set = set(zip(pos_edge_index[0].cpu().tolist(), pos_edge_index[1].cpu().tolist()))
+    
+#     neg_edges = []
+#     num_negatives = len(pos_edge_label) * neg_ratio
+    
+#     # Sample negative edges from valid node range
+#     while len(neg_edges) < num_negatives:
+#         # Sample random playlist and track IDs from BATCH range
+#         playlist_id = torch.randint(0, num_playlists, (1,)).item()
+#         track_id = torch.randint(0, num_tracks, (1,)).item()
+        
+#         # Skip if already a positive edge
+#         if (playlist_id, track_id) not in pos_set:
+#             neg_edges.append([playlist_id, track_id])
+    
+#     neg_edge_index = torch.tensor(neg_edges, dtype=torch.long).t().contiguous().to(device)
+#     neg_edge_label = torch.zeros(len(neg_edges), dtype=torch.long).to(device)
+    
+#     return neg_edge_index, neg_edge_label
+
 def sample_negatives(batch, device="cpu", neg_ratio=3):
     """Sample negative edges within batch node space."""
     edge_type = ('playlist', 'track_in_playlist', 'track')
     
-    # Get positive edges and their label info
+    # Get positive edges
     pos_edge_index = batch[edge_type].pos_edge_label_index
     pos_edge_label = batch[edge_type].pos_edge_label
     
-    # Get valid node ranges in THIS batch
+    # Get valid node ranges in THIS batch (LOCAL indices)
     num_playlists = batch['playlist'].num_nodes
     num_tracks = batch['track'].num_nodes
     
@@ -61,9 +94,9 @@ def sample_negatives(batch, device="cpu", neg_ratio=3):
     neg_edges = []
     num_negatives = len(pos_edge_label) * neg_ratio
     
-    # Sample negative edges from valid node range
+    # Sample negative edges from valid LOCAL node range
     while len(neg_edges) < num_negatives:
-        # Sample random playlist and track IDs from BATCH range
+        # Sample random LOCAL indices (not global!)
         playlist_id = torch.randint(0, num_playlists, (1,)).item()
         track_id = torch.randint(0, num_tracks, (1,)).item()
         
@@ -75,7 +108,6 @@ def sample_negatives(batch, device="cpu", neg_ratio=3):
     neg_edge_label = torch.zeros(len(neg_edges), dtype=torch.long).to(device)
     
     return neg_edge_index, neg_edge_label
-
 
 def sample_hard_negatives(batch, model, device=None, batch_size=500, frac_sample=1.0):
     """
